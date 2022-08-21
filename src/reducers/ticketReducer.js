@@ -176,12 +176,28 @@ const initialState = {
 const ticketReducer = (state = initialState, action) => {
    switch (action.type) {
       case "selectSeat":
-         const newSelectedSeats = [
+         const row = action.seat.name.charAt(0);
+         const rowNumber = +action.seat.name.charAt(1);
+         // console.log(row, rowNumber);
+
+
+         const indexRow = state.data.findIndex((item) => row === item.row);
+         // console.log(indexRow);
+         const indexBookedSeatStatus =
+            state.data[indexRow].seats[rowNumber - 1].booked;
+         console.log(indexBookedSeatStatus);
+
+
+         const newData = [...state.data, { indexBookedSeatStatus: !action.seat.booked }];
+         console.log(newData);
+
+
+         const newSelectedSeat = [
             ...state.selectedSeats,
-            { selectedSeats: action.seat },
+            { selectedSeats: action.seat, booked: !action.seat.booked },
          ];
 
-         return { ...state, selectedSeats: newSelectedSeats };
+         return { ...state,data: newData, selectedSeats: newSelectedSeat };
       default:
          return state;
    }

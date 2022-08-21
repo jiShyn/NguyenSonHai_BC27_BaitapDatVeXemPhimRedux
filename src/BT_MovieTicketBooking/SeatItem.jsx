@@ -1,11 +1,12 @@
 import cn from "classnames";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTickets } from "../actions/ticketAction";
 
 const SeatItem = ({ seat }) => {
    const dispatch = useDispatch();
    const selectSeat = (seat) => {
-      dispatch({ type: "selectSeat", seat });
+      dispatch(selectTickets(seat));
    };
    return (
       <>
@@ -14,10 +15,12 @@ const SeatItem = ({ seat }) => {
             return (
                <td
                   key={index}
-                  className={cn("text-center")}
-                  onClick={(evt) => {
+                  className={cn({
+                     "text-center": true,
+                     "text-danger": item.booked,
+                  })}
+                  onClick={() => {
                      selectSeat(item);
-                     evt.target.classList.add("text-danger");
                   }}
                >
                   {item.name}
