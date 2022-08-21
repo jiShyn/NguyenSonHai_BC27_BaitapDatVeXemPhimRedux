@@ -1,15 +1,22 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import cn from "classnames";
-import { getListBookedSeats } from "../actions/ticketAction";
+import { getListBookedSeats, selectTickets } from "../actions/ticketAction";
 
 const SeatDetails = () => {
    const dispatch = useDispatch();
    const { data, selectedSeats } = useSelector((state) => state.tickets);
 
+   const handleDelete = (seat) => {
+      // console.log(seat);
+      dispatch(selectTickets(seat));
+   };
+
    useEffect(() => {
       dispatch(getListBookedSeats());
    }, [data]);
+
+   if (!selectedSeats) return;
    return (
       <div
          className={cn(
@@ -30,11 +37,14 @@ const SeatDetails = () => {
                   selectedSeats.map((item, index) => {
                      return (
                         <tr key={index} className={cn("text-primary")}>
-                           <td>{item.selectedSeats.name}</td>
-                           <td>{item.selectedSeats.price}</td>
+                           <td>{item.name}</td>
+                           <td>{item.price}</td>
                            <td
                               className="text-danger"
                               style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                 handleDelete(item);
+                              }}
                            >
                               X
                            </td>
@@ -47,7 +57,7 @@ const SeatDetails = () => {
                   <td className="text-white">Tổng tiền</td>
                   <td>
                      {selectedSeats.reduce((total, item) => {
-                        return total + item.selectedSeats.price;
+                        return total + item.price;
                      }, 0)}{" "}
                      vnd
                   </td>

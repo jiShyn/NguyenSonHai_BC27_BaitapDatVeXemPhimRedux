@@ -189,15 +189,14 @@ const ticketReducer = (state = initialState, action) => {
 
       case "getListBookedSeats":
          const list = [...state.data];
-         console.log(list);
 
          const newList = list.map((item) => item.seats);
-         console.log(newList);
 
-         const newList2 = newList.map((item) => item);
-         console.log(newList2);
+         const newList2 = newList.flatMap((item) => item);
 
-         return state;
+         const bookedList = newList2.filter((item) => item.booked === true);
+
+         return { ...state, selectedSeats: bookedList };
       default:
          return state;
    }
