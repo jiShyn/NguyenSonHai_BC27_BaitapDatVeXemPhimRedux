@@ -1,6 +1,6 @@
 import cn from "classnames";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { selectTickets } from "../actions/ticketAction";
 
 const SeatItem = ({ seat }) => {
@@ -15,10 +15,12 @@ const SeatItem = ({ seat }) => {
             return (
                <td
                   key={index}
+                  style={{ cursor: "pointer" }}
                   className={cn({
                      "text-center": true,
-                     "text-danger": item.booked,
+                     "text-primary": item.booked,
                   })}
+                
                   onClick={() => {
                      selectSeat(item);
                   }}

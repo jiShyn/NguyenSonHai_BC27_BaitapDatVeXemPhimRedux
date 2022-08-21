@@ -175,29 +175,29 @@ const initialState = {
 };
 const ticketReducer = (state = initialState, action) => {
    switch (action.type) {
-      case "selectSeat":
+      case "changeBooked":
          const row = action.seat.name.charAt(0);
-         const rowNumber = +action.seat.name.charAt(1);
-         // console.log(row, rowNumber);
-
+         const rowNumber = +action.seat.name.slice(1);
 
          const indexRow = state.data.findIndex((item) => row === item.row);
-         // console.log(indexRow);
-         const indexBookedSeatStatus =
-            state.data[indexRow].seats[rowNumber - 1].booked;
-         console.log(indexBookedSeatStatus);
 
+         const newData = [...state.data];
 
-         const newData = [...state.data, { indexBookedSeatStatus: !action.seat.booked }];
-         console.log(newData);
+         newData[indexRow].seats[rowNumber - 1].booked = !action.seat.booked;
 
+         return { ...state, data: newData };
 
-         const newSelectedSeat = [
-            ...state.selectedSeats,
-            { selectedSeats: action.seat, booked: !action.seat.booked },
-         ];
+      case "getListBookedSeats":
+         const list = [...state.data];
+         console.log(list);
 
-         return { ...state,data: newData, selectedSeats: newSelectedSeat };
+         const newList = list.map((item) => item.seats);
+         console.log(newList);
+
+         const newList2 = newList.map((item) => item);
+         console.log(newList2);
+
+         return state;
       default:
          return state;
    }

@@ -1,7 +1,6 @@
 import React from 'react'
-import cn from 'classnames'
-import SeatList from './SeatList'
 import SeatDetails from './SeatDetails'
+import SeatList from './SeatList'
 
 const MovieTicketBooking = () => {
 	return (
